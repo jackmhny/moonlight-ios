@@ -88,6 +88,15 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
         [onScreenControls setLevel:level];
     }
     
+    // Apply overlay customization settings
+    if (settings.overlayPositionX && settings.overlayPositionY) {
+        [onScreenControls setOverlayPosition:[settings.overlayPositionX floatValue] y:[settings.overlayPositionY floatValue]];
+    }
+    
+    if (settings.overlayScale) {
+        [onScreenControls setOverlayScale:[settings.overlayScale floatValue]];
+    }
+    
     // It would be nice to just use GCMouse on iOS 14+ and the older API on iOS 13
     // but unfortunately that isn't possible today. GCMouse doesn't recognize many
     // mice correctly, but UIKit does. We will register for both and ignore UIKit

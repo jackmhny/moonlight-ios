@@ -85,6 +85,11 @@
     self.btMouseSupport = settings.btMouseSupport;
     self.absoluteTouchMode = settings.absoluteTouchMode;
     self.statsOverlay = settings.statsOverlay;
+    
+    // Initialize overlay customization properties with defaults if not set
+    self.overlayPositionX = settings.overlayPositionX ? settings.overlayPositionX : [NSNumber numberWithFloat:0.5];
+    self.overlayPositionY = settings.overlayPositionY ? settings.overlayPositionY : [NSNumber numberWithFloat:0.8];
+    self.overlayScale = settings.overlayScale ? settings.overlayScale : [NSNumber numberWithFloat:1.0];
 #endif
     self.uniqueId = settings.uniqueId;
     

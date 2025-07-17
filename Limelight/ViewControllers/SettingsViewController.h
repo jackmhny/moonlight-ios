@@ -28,6 +28,14 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *statsOverlaySelector;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
+// Overlay customization properties
+@property (strong, nonatomic) IBOutlet UISlider *overlayPositionXSlider;
+@property (strong, nonatomic) IBOutlet UISlider *overlayPositionYSlider;
+@property (strong, nonatomic) IBOutlet UISlider *overlayScaleSlider;
+@property (strong, nonatomic) IBOutlet UILabel *overlayPositionXLabel;
+@property (strong, nonatomic) IBOutlet UILabel *overlayPositionYLabel;
+@property (strong, nonatomic) IBOutlet UILabel *overlayScaleLabel;
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 

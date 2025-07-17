@@ -139,6 +139,9 @@ BOOL isCustomResolution(CGSize res) {
     
     // Ensure we pick a bitrate that falls exactly onto a slider notch
     _bitrate = bitrateTable[[self getSliderValueForBitrate:[currentSettings.bitrate intValue]]];
+    
+    // Setup overlay customization controls
+    [self setupOverlayCustomizationControls:currentSettings];
 
     // Get the size of the screen with and without safe area insets
     UIWindow *window = UIApplication.sharedApplication.windows.firstObject;
@@ -553,7 +556,10 @@ BOOL isCustomResolution(CGSize res) {
                            enableHdr:enableHdr
                       btMouseSupport:btMouseSupport
                    absoluteTouchMode:absoluteTouchMode
-                        statsOverlay:statsOverlay];
+                        statsOverlay:statsOverlay
+                    overlayPositionX:self.overlayPositionXSlider.value
+                    overlayPositionY:self.overlayPositionYSlider.value
+                        overlayScale:self.overlayScaleSlider.value];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -569,3 +575,79 @@ BOOL isCustomResolution(CGSize res) {
 
 
 @end
+- (void) setupOverlayCustomizationControls:(TemporarySettings*)currentSettings {
+    // Create and add labels for overlay customization
+    UILabel *overlayCustomizationLabel = [[UILabel alloc] init];
+    overlayCustomizationLabel.text = @"Overlay Customization";
+    overlayCustomizationLabel.textColor = [UIColor whiteColor];
+    overlayCustomizationLabel.font = [UIFont boldSystemFontOfSize:18];
+    [overlayCustomizationLabel sizeToFit];
+    overlayCustomizationLabel.frame = CGRectMake(20, 1000, overlayCustomizationLabel.frame.size.width, overlayCustomizationLabel.frame.size.height);
+    [self.scrollView addSubview:overlayCustomizationLabel];
+    
+    // X Position
+    self.overlayPositionXLabel = [[UILabel alloc] init];
+    self.overlayPositionXLabel.text = [NSString stringWithFormat:@"Horizontal Position: %.2f", [currentSettings.overlayPositionX floatValue]];
+    self.overlayPositionXLabel.textColor = [UIColor whiteColor];
+    [self.overlayPositionXLabel sizeToFit];
+    self.overlayPositionXLabel.frame = CGRectMake(20, 1040, self.overlayPositionXLabel.frame.size.width, self.overlayPositionXLabel.frame.size.height);
+    [self.scrollView addSubview:self.overlayPositionXLabel];
+    
+    self.overlayPositionXSlider = [[UISlider alloc] init];
+    self.overlayPositionXSlider.minimumValue = 0.0;
+    self.overlayPositionXSlider.maximumValue = 1.0;
+    self.overlayPositionXSlider.value = [currentSettings.overlayPositionX floatValue];
+    self.overlayPositionXSlider.frame = CGRectMake(20, 1070, self.view.frame.size.width - 40, 30);
+    [self.overlayPositionXSlider addTarget:self action:@selector(overlayPositionXSliderMoved) forControlEvents:UIControlEventValueChanged];
+    [self.scrollView addSubview:self.overlayPositionXSlider];
+    
+    // Y Position
+    self.overlayPositionYLabel = [[UILabel alloc] init];
+    self.overlayPositionYLabel.text = [NSString stringWithFormat:@"Vertical Position: %.2f", [currentSettings.overlayPositionY floatValue]];
+    self.overlayPositionYLabel.textColor = [UIColor whiteColor];
+    [self.overlayPositionYLabel sizeToFit];
+    self.overlayPositionYLabel.frame = CGRectMake(20, 1110, self.overlayPositionYLabel.frame.size.width, self.overlayPositionYLabel.frame.size.height);
+    [self.scrollView addSubview:self.overlayPositionYLabel];
+    
+    self.overlayPositionYSlider = [[UISlider alloc] init];
+    self.overlayPositionYSlider.minimumValue = 0.0;
+    self.overlayPositionYSlider.maximumValue = 1.0;
+    self.overlayPositionYSlider.value = [currentSettings.overlayPositionY floatValue];
+    self.overlayPositionYSlider.frame = CGRectMake(20, 1140, self.view.frame.size.width - 40, 30);
+    [self.overlayPositionYSlider addTarget:self action:@selector(overlayPositionYSliderMoved) forControlEvents:UIControlEventValueChanged];
+    [self.scrollView addSubview:self.overlayPositionYSlider];
+    
+    // Scale
+    self.overlayScaleLabel = [[UILabel alloc] init];
+    self.overlayScaleLabel.text = [NSString stringWithFormat:@"Scale: %.2f", [currentSettings.overlayScale floatValue]];
+    self.overlayScaleLabel.textColor = [UIColor whiteColor];
+    [self.overlayScaleLabel sizeToFit];
+    self.overlayScaleLabel.frame = CGRectMake(20, 1180, self.overlayScaleLabel.frame.size.width, self.overlayScaleLabel.frame.size.height);
+    [self.scrollView addSubview:self.overlayScaleLabel];
+    
+    self.overlayScaleSlider = [[UISlider alloc] init];
+    self.overlayScaleSlider.minimumValue = 0.5;
+    self.overlayScaleSlider.maximumValue = 2.0;
+    self.overlayScaleSlider.value = [currentSettings.overlayScale floatValue];
+    self.overlayScaleSlider.frame = CGRectMake(20, 1210, self.view.frame.size.width - 40, 30);
+    [self.overlayScaleSlider addTarget:self action:@selector(overlayScaleSliderMoved) forControlEvents:UIControlEventValueChanged];
+    [self.scrollView addSubview:self.overlayScaleSlider];
+    
+    // Update scroll view content size
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, 1260);
+}
+
+- (void) overlayPositionXSliderMoved {
+    self.overlayPositionXLabel.text = [NSString stringWithFormat:@"Horizontal Position: %.2f", self.overlayPositionXSlider.value];
+    [self.overlayPositionXLabel sizeToFit];
+}
+
+- (void) overlayPositionYSliderMoved {
+    self.overlayPositionYLabel.text = [NSString stringWithFormat:@"Vertical Position: %.2f", self.overlayPositionYSlider.value];
+    [self.overlayPositionYLabel sizeToFit];
+}
+
+- (void) overlayScaleSliderMoved {
+    self.overlayScaleLabel.text = [NSString stringWithFormat:@"Scale: %.2f", self.overlayScaleSlider.value];
+    [self.overlayScaleLabel sizeToFit];
+}

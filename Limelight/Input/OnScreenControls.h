@@ -32,5 +32,7 @@ typedef NS_ENUM(NSInteger, OnScreenControlsLevel) {
 - (void) setLevel:(OnScreenControlsLevel)level;
 - (OnScreenControlsLevel) getLevel;
 - (void) show;
+- (void) setOverlayPosition:(float)x y:(float)y;
+- (void) setOverlayScale:(float)scale;
 
 @end
