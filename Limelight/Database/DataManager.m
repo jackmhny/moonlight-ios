@@ -67,7 +67,10 @@
                        enableHdr:(BOOL)enableHdr
                   btMouseSupport:(BOOL)btMouseSupport
                absoluteTouchMode:(BOOL)absoluteTouchMode
-                    statsOverlay:(BOOL)statsOverlay {
+                    statsOverlay:(BOOL)statsOverlay
+                overlayPositionX:(float)overlayPositionX
+                overlayPositionY:(float)overlayPositionY
+                    overlayScale:(float)overlayScale {
     
     [_managedObjectContext performBlockAndWait:^{
         Settings* settingsToSave = [self retrieveSettings];
@@ -87,6 +90,9 @@
         settingsToSave.btMouseSupport = btMouseSupport;
         settingsToSave.absoluteTouchMode = absoluteTouchMode;
         settingsToSave.statsOverlay = statsOverlay;
+        settingsToSave.overlayPositionX = [NSNumber numberWithFloat:overlayPositionX];
+        settingsToSave.overlayPositionY = [NSNumber numberWithFloat:overlayPositionY];
+        settingsToSave.overlayScale = [NSNumber numberWithFloat:overlayScale];
         
         [self saveData];
     }];
